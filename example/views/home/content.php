@@ -1,3 +1,29 @@
-<h3>Bienvendio a la página principal</h3>
-<p>Tu dirección ip es: <?php echo $view['ip_address'] ?></p>
-<p>Y tu país es: <?php echo $view['country'] ?></p>
+<div id="app"></div>
+<script>
+let text = `
+  <div>
+    { firstName } { lastName } <br>
+    { country }<br>
+    { age }<br>
+  </div>
+`;
+
+const vars = {
+  firstName: 'Juan',
+  lastName: 'Gauna',
+  country: 'Argentina',
+  age: 18
+}
+
+const fileVars = text.match(/({)([\w\s]+)(})/g)
+function getVar(string) {
+  return string.replace(/({)([\w\s]+)(})/g, '$2')
+}
+
+
+for (let index = 0; index < fileVars.length; index++) {
+  const keyword = fileVars[index];
+  text = text.replace(keyword, vars[getVar(keyword).trim()]); 
+}
+document.getElementById('app').innerHTML = text
+</script>

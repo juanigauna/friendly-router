@@ -41,12 +41,18 @@ Y luego deberíamos definir unas reglas de .htaccess.
 Creamos un archivo .htacces en el directorio base de nuestro proyecto y le pegamos el siguiente contenido:
 
 ```
-RewriteEngine On
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+    RewriteEngine On
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*) index.php [NC,QSA]
-RewriteRule ^ index.php [NC,QSA]
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
 ```
 El archivo "index.php" puede ser reemplzado por el archivo el cual destinen para ser su archivo principal en su proyecto.
 
